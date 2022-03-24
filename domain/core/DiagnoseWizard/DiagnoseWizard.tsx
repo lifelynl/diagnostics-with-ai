@@ -72,7 +72,10 @@ export const DiagnoseWizard = observer(() => {
 
     return (
         <form onSubmit={handleOnSubmit} style={{height: '100vh', display: 'flex', flexDirection:'column', justifyContent: 'space-between'}}>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             {renderStep()}
+
+            </div>
             <Button style={{marginBottom: 16}} type="submit">Continue</Button>
         </form>
     )
