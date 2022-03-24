@@ -1,7 +1,7 @@
 import { useLocalObservable, observer } from 'mobx-react'
 import { DynamicWizard } from '../../../infra/core/DynamicWizard/DynamicWizard'
-import  { uniqueId } from 'lodash'
-import { useState } from 'react'
+import { uniqueId } from 'lodash'
+import { FormEventHandler, useRef, useState } from 'react'
 import { ExtraSymptoms } from './templates/ExtraSymptoms'
 import { HowManyDays } from './templates/HowManyDays'
 import { MainSymptom } from './templates/MainSymptom'
@@ -12,78 +12,124 @@ import styles from './DiagnoseWizard.module.css'
 import backgroundShape  from '../../../public/backgroundShape.svg'
 
 export enum QuestionType {
-    MainSymptom = 'MainSymptom',
-    SymptomCorrection = 'SymptomCorrection',
-    HowManyDays = 'HowManyDays',
-    ExtraSymptoms = 'ExtraSymptoms',
-    Result = 'Result'
+    Init = 'Init',
+    SymptomClarification = 'SymptomClarification',
+    AmountOfDays = 'AmountOfDays',
+    FollowUpSymptom = 'FollowUpSymptom',
+    Conclusion = 'Conclusion',
 }
 
-let index = 0
-async function askKindlyToAI(value: string): Promise<{ question: string, type: QuestionType }> {
-    index++
+export interface MagicResponseData {
+    id: string
+    state: QuestionType
+    stateData: any
+}
 
-    if(index === 0) {
-        return new Promise(resolve => resolve({ question: 'next question' + uniqueId(), type: QuestionType.SymptomCorrection }))
+let previousResult: any = {}
+async function askKindlyToAI(value: string): Promise<{ type: QuestionType; data: any }> {
+    previousResult = await magic(previousResult.id || 'unknown', value)
+
+    return {
+        type: previousResult.state,
+        data: previousResult.stateData,
     }
 
-    if(index === 1) {
-        return new Promise(resolve => resolve({ question: 'next question' + uniqueId(), type: QuestionType.SymptomCorrection }))
-    }
+    // // index++
 
-    if(index === 2) {
-        return new Promise(resolve => resolve({ question: 'next question' + uniqueId(), type: QuestionType.HowManyDays }))
-    }
+    // // if (index === 0) {
+    // //     return new Promise(resolve =>
+    // //         resolve({ question: 'next question' + uniqueId(), type: QuestionType.SymptomClarification })
+    // //     )
+    // // }
 
-    if(index === 4) {
-        return new Promise(resolve => resolve({ question: 'next question' + uniqueId(), type: QuestionType.Result }))
-    }
+    // // if (index === 1) {
+    // //     return new Promise(resolve =>
+    // //         resolve({ question: 'next question' + uniqueId(), type: QuestionType.SymptomClarification })
+    // //     )
+    // // }
 
-    // please can you answer this question for me, thank you kind ai!
-    return new Promise(resolve => resolve({ question: 'next question' + uniqueId(), type: QuestionType.ExtraSymptoms }))
+    // // if (index === 2) {
+    // //     return new Promise(resolve =>
+    // //         resolve({ question: 'next question' + uniqueId(), type: QuestionType.AmountOfDays })
+    // //     )
+    // // }
+
+    // // if (index === 4) {
+    // //     return new Promise(resolve =>
+    // //         resolve({ question: 'next question' + uniqueId(), type: QuestionType.Conclusion })
+    // //     )
+    // // }
+
+    // // please can you answer this question for me, thank you kind ai!
+    // return new Promise(resolve =>
+    //     resolve({ question: 'next question' + uniqueId(), type: QuestionType.FollowUpSymptom })
+    // )
 }
 
 export const DiagnoseWizard = observer(() => {
-    const [value, setValue] = useState('')
-    const dynamicWizard = useLocalObservable(() => new DynamicWizard([ {content: 'Main symptom?', type: QuestionType.MainSymptom, id: uniqueId() }]))
+    const dynamicWizard = useLocalObservable(
+        () => new DynamicWizard([{ data: {}, type: QuestionType.Init, id: uniqueId() }])
+    )
 
     return (
         <div className={styles.background} style={{ backgroundImage: `url(${backgroundShape})` }}>
+        <form onSubmit={handleOnSubmit}>
             {renderStep()}
-
-            <Button onClick={async () => {
-                const result = await askKindlyToAI(value)
-                 dynamicWizard.addStep({
-                    content: result.question,
-                    type: result.type,
-                    id: uniqueId()
-                })
-                dynamicWizard.nextStep()
-            }}>Continue</Button>
-        </div>
+            <Button type="submit">Continue</Button>
+        </form>
     )
 
+    async function handleOnSubmit(e?: any) {
+        console.log(e.target.elements.value.value)
+        e.preventDefault()
+        const result = await askKindlyToAI(e.target.elements.value.value)
+        dynamicWizard.addStep({
+            id: uniqueId(),
+            type: result.type,
+            data: result.data,
+        })
+        dynamicWizard.nextStep()
+    }
+
     function renderStep() {
-        if(dynamicWizard.activeStep?.type === QuestionType.ExtraSymptoms) {
-            return <ExtraSymptoms />
+        if (dynamicWizard.activeStep?.type === QuestionType.FollowUpSymptom) {
+            return <ExtraSymptoms option={dynamicWizard.activeStep.data.option} />
         }
 
-        if(dynamicWizard.activeStep?.type === QuestionType.HowManyDays) {
+        if (dynamicWizard.activeStep?.type === QuestionType.AmountOfDays) {
             return <HowManyDays />
         }
 
-        if(dynamicWizard.activeStep?.type === QuestionType.MainSymptom) {
+        if (dynamicWizard.activeStep?.type === QuestionType.Init) {
             return <MainSymptom />
         }
-        
-        if(dynamicWizard.activeStep?.type === QuestionType.SymptomCorrection) {
-            return <SymptomCorrection />
+
+        if (dynamicWizard.activeStep?.type === QuestionType.SymptomClarification) {
+            return <SymptomCorrection options={dynamicWizard.activeStep.data.options} />
         }
 
-        if(dynamicWizard.activeStep?.type === QuestionType.Result) {
-            return <Result />
+        if (dynamicWizard.activeStep?.type === QuestionType.Conclusion) {
+            return <Result result={dynamicWizard.activeStep.data.conclusion} />
         }
 
         return null
     }
 })
+
+// Example POST method implementation:
+async function magic(sessionId: string, input: string): Promise<any> {
+    // Default options are marked with *
+    const response = await fetch(`/api/ai?sessionId=${sessionId}&input=${input}`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    })
+
+    return response.json() // parses JSON response into native JavaScript objects
+}

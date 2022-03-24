@@ -1,12 +1,11 @@
-import {makeAutoObservable} from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { QuestionType } from '../../../domain/core/DiagnoseWizard/DiagnoseWizard'
 
-
 interface Step {
+    id: string
     // formState:  FormState
     type: QuestionType
-    content: string
-    id: string
+    data: any
 }
 
 export class DynamicWizard {
@@ -15,12 +14,12 @@ export class DynamicWizard {
 
     public get activeStepIndex() {
         return this.steps.findIndex(step => {
-             return step.id === this.activeStepId
+            return step.id === this.activeStepId
         })
     }
 
     public get lastIndexIsActive() {
-        const eyJongenJeGaatIetsTeVerTerug = this.activeStepIndex === this.steps.length - 1 
+        const eyJongenJeGaatIetsTeVerTerug = this.activeStepIndex === this.steps.length - 1
         return eyJongenJeGaatIetsTeVerTerug
     }
 
@@ -31,7 +30,7 @@ export class DynamicWizard {
 
     public get activeStep() {
         return this.steps.find(step => {
-             return step.id === this.activeStepId
+            return step.id === this.activeStepId
         })
     }
 
@@ -49,7 +48,7 @@ export class DynamicWizard {
         if (this.lastIndexIsActive) {
             return
         }
-        
+
         this.activeStepId = this.steps[this.activeStepIndex + 1].id
     }
 
@@ -57,8 +56,7 @@ export class DynamicWizard {
         if (this.firstIndexIsActive) {
             return
         }
-        
+
         this.activeStepId = this.steps[this.activeStepIndex - 1].id
     }
-
 }

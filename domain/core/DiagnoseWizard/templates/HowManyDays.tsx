@@ -1,3 +1,8 @@
 export const HowManyDays: React.FunctionComponent<{}> = () => {
-    return <p>HowManyDays</p>
+    return (
+        <div>
+            <p>HowManyDays</p>
+            <input type="number" name="value" />
+        </div>
+    )
 }
