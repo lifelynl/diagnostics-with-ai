@@ -1,17 +1,13 @@
 import {makeAutoObservable} from 'mobx'
-
-
-interface FormState {
-
-}
+import { QuestionType } from '../../../domain/core/DiagnoseWizard/DiagnoseWizard'
 
 
 interface Step {
     // formState:  FormState
+    type: QuestionType
     content: string
     id: string
 }
-
 
 export class DynamicWizard {
     public steps: Step[] = []
@@ -43,7 +39,6 @@ export class DynamicWizard {
         makeAutoObservable(this)
         this.steps = knownSteps
         this.activeStepId = this.steps[0]?.id
-        console.log(this.steps, knownSteps)
     }
 
     public addStep(newStep: Step) {
@@ -51,7 +46,6 @@ export class DynamicWizard {
     }
 
     public nextStep() {
-        console.log(this.lastIndexIsActive)
         if (this.lastIndexIsActive) {
             return
         }
