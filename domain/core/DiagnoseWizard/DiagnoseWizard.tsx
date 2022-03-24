@@ -47,7 +47,7 @@ export const DiagnoseWizard = observer(() => {
 
     return (
         <div>
-            {/* {renderStep()} */}
+            {renderStep()}
 
             <Button onClick={async () => {
                 const result = await askKindlyToAI(value)
