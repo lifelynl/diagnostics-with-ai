@@ -9,6 +9,7 @@ import { SymptomCorrection } from './templates/SymptomCorrection'
 import { Result } from './templates/Result'
 import { Button } from '../Button/Button'
 import symptoms from './symptoms.json'
+import Image from 'next/image'
 
 export enum QuestionType {
     Init = 'Init',
@@ -72,7 +73,8 @@ export const DiagnoseWizard = observer(() => {
 
     return (
         <form onSubmit={handleOnSubmit} style={{height: '100vh', display: 'flex', flexDirection:'column', justifyContent: 'space-between'}}>
-            <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+            <Image width={132} height={156} src={'/Danny.png'} alt={'Danny'} />
             {renderStep()}
             </div>
             <Button style={{marginBottom: 16}} type="submit">Continue</Button>
