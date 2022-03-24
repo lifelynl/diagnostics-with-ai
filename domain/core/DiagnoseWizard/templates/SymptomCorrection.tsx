@@ -8,11 +8,11 @@ export const SymptomCorrection: React.FunctionComponent<SymptomCorrectionProps> 
     return (
         <div>
             <p>Symptom correction pick one</p>
-            
-            <Select 
+
+            <Select
                 id={'value'}
-                name="value" 
-                items={options.map(option => ({value: option, label: option.replace('_', ' ') }))} 
+                name="value"
+                items={options.map(option => ({value: option, label: option.replace(/_/g, ' ') }))}
              />
         </div>
     )
