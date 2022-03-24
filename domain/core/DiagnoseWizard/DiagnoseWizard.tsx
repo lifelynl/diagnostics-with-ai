@@ -1,7 +1,7 @@
 import { useLocalObservable, observer } from 'mobx-react'
 import { DynamicWizard } from '../../../infra/core/DynamicWizard/DynamicWizard'
 import  { uniqueId } from 'lodash'
-import { useState } from 'react'
+import { FormEventHandler, useRef, useState } from 'react'
 import { ExtraSymptoms } from './templates/ExtraSymptoms'
 import { HowManyDays } from './templates/HowManyDays'
 import { MainSymptom } from './templates/MainSymptom'
@@ -42,24 +42,27 @@ async function askKindlyToAI(value: string): Promise<{ question: string, type: Q
 }
 
 export const DiagnoseWizard = observer(() => {
-    const [value, setValue] = useState('')
     const dynamicWizard = useLocalObservable(() => new DynamicWizard([ {content: 'Main symptom?', type: QuestionType.MainSymptom, id: uniqueId() }]))
 
     return (
-        <div>
-            {renderStep()}
-
-            <Button onClick={async () => {
-                const result = await askKindlyToAI(value)
-                 dynamicWizard.addStep({
-                    content: result.question,
-                    type: result.type,
-                    id: uniqueId()
-                })
-                dynamicWizard.nextStep()
-            }}>Continue</Button>
-        </div>
+        <form onSubmit={handleOnSubmit}>
+            {/* {renderStep()} */}
+            <ExtraSymptoms title={''} />
+            <Button type='submit'>Continue</Button>
+        </form>
     )
+
+    async function handleOnSubmit(e?: any) {
+        console.log(e.target.elements.value.value)
+        e.preventDefault()
+        const result = await askKindlyToAI(e.target.elements.value.value)
+        dynamicWizard.addStep({
+            content: result.question,
+            type: result.type,
+            id: uniqueId()
+        })
+        dynamicWizard.nextStep()
+    }
 
     function renderStep() {
         if(dynamicWizard.activeStep?.type === QuestionType.ExtraSymptoms) {
