@@ -2,10 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Client } from 'ssh2'
 
-type Data = {
-    name: string
-}
-
 enum SessionState {
     Init = 'Init',
     SymptomClarification = 'SymptomClarification',

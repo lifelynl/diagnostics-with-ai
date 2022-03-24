@@ -1,3 +1,8 @@
 export const MainSymptom: React.FunctionComponent<{}> = () => {
-    return <p>MainSymptom</p>
+    return (
+        <div>
+            <p>MainSymptom</p>
+            <input type="text" name="value" />
+        </div>
+    )
 }
