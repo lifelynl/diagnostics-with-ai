@@ -47,7 +47,7 @@ export const DiagnoseWizard = observer(() => {
 
     return (
         <div>
-            {renderStep()}
+            {/* {renderStep()} */}
 
             <Button onClick={async () => {
                 const result = await askKindlyToAI(value)
@@ -63,7 +63,7 @@ export const DiagnoseWizard = observer(() => {
 
     function renderStep() {
         if(dynamicWizard.activeStep?.type === QuestionType.ExtraSymptoms) {
-            return <ExtraSymptoms />
+            return <ExtraSymptoms title={''} />
         }
 
         if(dynamicWizard.activeStep?.type === QuestionType.HowManyDays) {
