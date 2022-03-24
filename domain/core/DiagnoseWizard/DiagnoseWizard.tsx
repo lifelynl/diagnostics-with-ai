@@ -8,8 +8,6 @@ import { MainSymptom } from './templates/MainSymptom'
 import { SymptomCorrection } from './templates/SymptomCorrection'
 import { Result } from './templates/Result'
 import { Button } from '../Button/Button'
-import styles from './DiagnoseWizard.module.css'
-import backgroundShape  from '../../../public/backgroundShape.svg'
 
 export enum QuestionType {
     Init = 'Init',
@@ -72,7 +70,6 @@ export const DiagnoseWizard = observer(() => {
     )
 
     return (
-        <div className={styles.background} style={{ backgroundImage: `url(${backgroundShape})` }}>
         <form onSubmit={handleOnSubmit}>
             {renderStep()}
             <Button type="submit">Continue</Button>
