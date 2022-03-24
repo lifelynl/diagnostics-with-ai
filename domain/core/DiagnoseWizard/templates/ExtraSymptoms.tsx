@@ -1,4 +1,5 @@
 import { Radio } from '../../Radio/Radio'
+import { Title } from '../../Title/Title'
 
 interface ExtraSymptomsProps {
     option: string
@@ -7,7 +8,7 @@ interface ExtraSymptomsProps {
 export const ExtraSymptoms: React.FunctionComponent<ExtraSymptomsProps> = ({ option }) => {
     return (
         <div>
-            <h1>{option}</h1>
+            <Title>{option}</Title>
             <Radio id="yes" name="value" value="yes" label="Yes" />
             <Radio id="no" name="value" value="no" label="No" />
         </div>
