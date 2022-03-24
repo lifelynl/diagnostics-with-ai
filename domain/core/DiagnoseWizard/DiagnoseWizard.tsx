@@ -77,7 +77,7 @@ export const DiagnoseWizard = observer(() => {
             <Image width={132} height={156} src={'/Danny.png'} alt={'Danny'} />
             {renderStep()}
             </div>
-            <Button style={{marginBottom: 16}} type="submit">Continue</Button>
+            <Button style={{marginBottom: 16, transform: 'translateY(-24px)'}} type="submit">Continue</Button>
         </form>
     )
 

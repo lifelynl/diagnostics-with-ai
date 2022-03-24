@@ -13,6 +13,7 @@ export const Select: React.FunctionComponent<SelectProps> = (props) => {
 
    return <ReactSelect
             options={items}
+            name={props.name}
         />
-   
+
 }
