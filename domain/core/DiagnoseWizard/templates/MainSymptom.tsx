@@ -1,10 +1,22 @@
+
+import { Select } from '../../Select/Select'
 import styles from './MainSymptom.module.css'
 
-export const MainSymptom: React.FunctionComponent<{}> = () => {
+
+interface MainSymptomProps {
+    options: string[]
+}
+
+export const MainSymptom: React.FunctionComponent<MainSymptomProps> = ({options}) => {
     return (
         <div className={styles.mainSymptom}>
             <h1>What is your most prevalent symptom?</h1>
-            <input type="text" name="value" />
+
+            <Select 
+                id={'value'}
+                name="value" 
+                items={options.map(option => ({value: option, label: option.replace('_', ' ') }))} 
+             />
         </div>
     )
 }

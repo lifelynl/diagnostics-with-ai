@@ -8,6 +8,7 @@ import { MainSymptom } from './templates/MainSymptom'
 import { SymptomCorrection } from './templates/SymptomCorrection'
 import { Result } from './templates/Result'
 import { Button } from '../Button/Button'
+import symptoms from './symptoms.json'
 
 export enum QuestionType {
     Init = 'Init',
@@ -98,7 +99,7 @@ export const DiagnoseWizard = observer(() => {
         }
 
         if (dynamicWizard.activeStep?.type === QuestionType.Init) {
-            return <MainSymptom />
+            return <MainSymptom options={symptoms} />
         }
 
         if (dynamicWizard.activeStep?.type === QuestionType.SymptomClarification) {

@@ -1,3 +1,5 @@
+import { Select } from "../../Select/Select"
+
 interface SymptomCorrectionProps {
     options: string[]
 }
@@ -5,12 +7,13 @@ interface SymptomCorrectionProps {
 export const SymptomCorrection: React.FunctionComponent<SymptomCorrectionProps> = ({ options }) => {
     return (
         <div>
-            <p>SymptomCorrection pick one</p>
-            <select name="value">
-                {options.map((option, index) => (
-                    <option value={index}>{option}</option>
-                ))}
-            </select>
+            <p>Symptom correction pick one</p>
+            
+            <Select 
+                id={'value'}
+                name="value" 
+                items={options.map(option => ({value: option, label: option.replace('_', ' ') }))} 
+             />
         </div>
     )
 }
