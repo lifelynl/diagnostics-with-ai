@@ -4,4 +4,6 @@ body {
     padding: 20px 20px 60px;
     max-width: 680px;
     margin: 0 auto;
+    background: rgb(225,223,246);
+background: radial-gradient(circle, rgba(225,223,246,1) 14%, rgba(192,186,244,1) 46%, rgba(192,186,244,1) 75%, rgba(192,186,244,1) 100%);
   }
