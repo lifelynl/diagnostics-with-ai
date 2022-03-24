@@ -8,6 +8,8 @@ import { MainSymptom } from './templates/MainSymptom'
 import { SymptomCorrection } from './templates/SymptomCorrection'
 import { Result } from './templates/Result'
 import { Button } from '../Button/Button'
+import styles from './DiagnoseWizard.module.css'
+import backgroundShape  from '../../../public/backgroundShape.svg'
 
 export enum QuestionType {
     MainSymptom = 'MainSymptom',
@@ -46,7 +48,7 @@ export const DiagnoseWizard = observer(() => {
     const dynamicWizard = useLocalObservable(() => new DynamicWizard([ {content: 'Main symptom?', type: QuestionType.MainSymptom, id: uniqueId() }]))
 
     return (
-        <div>
+        <div className={styles.background} style={{ backgroundImage: `url(${backgroundShape})` }}>
             {renderStep()}
 
             <Button onClick={async () => {
