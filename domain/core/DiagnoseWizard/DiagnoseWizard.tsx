@@ -7,6 +7,7 @@ import { HowManyDays } from './templates/HowManyDays'
 import { MainSymptom } from './templates/MainSymptom'
 import { SymptomCorrection } from './templates/SymptomCorrection'
 import { Result } from './templates/Result'
+import { Button } from '../Button/Button'
 
 export enum QuestionType {
     MainSymptom = 'MainSymptom',
@@ -47,9 +48,8 @@ export const DiagnoseWizard = observer(() => {
     return (
         <div>
             {renderStep()}
-            <input onChange={e => setValue(e.target.value)}/>
 
-            <button onClick={async () => {
+            <Button onClick={async () => {
                 const result = await askKindlyToAI(value)
                  dynamicWizard.addStep({
                     content: result.question,
@@ -57,7 +57,7 @@ export const DiagnoseWizard = observer(() => {
                     id: uniqueId()
                 })
                 dynamicWizard.nextStep()
-            }}>Submit</button>
+            }}>Continue</Button>
         </div>
     )
 
