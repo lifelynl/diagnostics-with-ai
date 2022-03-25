@@ -35,6 +35,20 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Where the AI magic happens
 
+### How the architecture works (sequence)
+
+1. Frontend performs HTTP request with the first (main) symptom.
+2. Server generates random string (as session ID) and establishes an SSH connection. The connection, together with the unique ID, is stored in an array.
+3. The symptom is sent to the chatbot.
+4. The response of the chatbot is parsed and the follow-up question is sent as response to the HTTP request from step 1, together with the session ID.
+5. The frontend saves this session ID in a variable and shows the followup question to the user.
+6. When the next form is submitted, the frontend performs a new HTTP request, this time with the session ID too.
+7. Server looks up connection by session ID and sents the user input to the chatbot.
+8. The response is parsed again and sent back to the frontend as response to the HTTP request from step 6.
+9. And so on and so on, until the last response of the chatbot is no question anymore, but a conclusion. The conclusion is shown in the frontend.
+
+### How to host it
+
 1. Host the files from the 'magic' on a remote machine that is accessible with SSH
 2. Test the python script by running `python3 chat_bot.py` on that machine
 3. Add following environment variables to this nextjs backend:
