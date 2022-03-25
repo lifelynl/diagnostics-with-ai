@@ -39,10 +39,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2. Test the python script by running `python3 chat_bot.py` on that machine
 3. Add following environment variables to this nextjs backend:
 
-    AI_HOST=1.2.3.4
-    AI_PORT=22
-    AI_USERNAME=username
-    AI_PASSWORD=password
-    AI_REMOTE_PATH=/path/to/chatbot
+```
+AI_HOST=1.2.3.4
+AI_PORT=22
+AI_USERNAME=username
+AI_PASSWORD=password
+AI_REMOTE_PATH=/path/to/chatbot
+```
 
 4. You might need to restart the nextjs backend when the api is stuck :')
