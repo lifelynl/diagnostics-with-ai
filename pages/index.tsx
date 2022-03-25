@@ -4,7 +4,11 @@ import Image from 'next/image'
 
 
 const Home: NextPage = () => {
-  return null;
+  return (
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </Head>
+  );
 }
 
 export default Home

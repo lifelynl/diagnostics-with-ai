@@ -108,14 +108,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
                             }
                         }
 
-                        if (data.indexOf('You may have') > -1) {
+                        if (data.indexOf('It might not be that bad but') > -1) {
                             session!.state = SessionState.Conclusion
                             session!.stateData = {
                                 conclusion: `${data}`,
                             }
                         }
                     })
-                stream.write('cd /home/jessedvrs/ai-hackaton/healthcare-chatbot\n')
+                stream.write(`cd ${process.env.AI_REMOTE_PATH}\n`)
                 stream.write('python3 chat_bot.py\n')
                 stream.write('Person\n')
                 stream.write(`${input}\n`)

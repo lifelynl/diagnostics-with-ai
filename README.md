@@ -32,3 +32,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Where the AI magic happens
+
+1. Host the files from the 'magic' on a remote machine that is accessible with SSH
+2. Test the python script by running `python3 chat_bot.py` on that machine
+3. Add following environment variables to this nextjs backend:
+
+    AI_HOST=1.2.3.4
+    AI_PORT=22
+    AI_USERNAME=username
+    AI_PASSWORD=password
+    AI_REMOTE_PATH=/path/to/chatbot
+
+4. You might need to restart the nextjs backend when the api is stuck :')
