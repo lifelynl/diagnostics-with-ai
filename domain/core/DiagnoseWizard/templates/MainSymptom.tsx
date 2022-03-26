@@ -1,5 +1,6 @@
 
 import { Select } from '../../Select/Select'
+import { Title } from '../../Title/Title'
 import styles from './MainSymptom.module.css'
 
 
@@ -9,8 +10,8 @@ interface MainSymptomProps {
 
 export const MainSymptom: React.FunctionComponent<MainSymptomProps> = ({options}) => {
     return (
-        <div className={styles.mainSymptom}>
-            <h1>What is your most prevalent symptom?</h1>
+        <div className={styles.container}>
+            <Title>What is your most prevalent symptom?</Title>
 
             <Select
                 id={'value'}

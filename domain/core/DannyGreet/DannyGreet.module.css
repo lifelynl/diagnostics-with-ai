@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.part {
+    opacity: 0;
+    /* display: none; */
+
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.partActive {
+    opacity: 1;
+    /* display: block; */
+}
+
+.greet {
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+letter-spacing: 0.1px;
+
+color: #27292B;
+}
+
+.text {
+
+    font-style: normal;
+    font-weight: 800;
+    font-size: 26px;
+    line-height: 36px;
+    /* or 138% */
+    
+    letter-spacing: 0.1px;
+    
+    color: #000000;
+    }

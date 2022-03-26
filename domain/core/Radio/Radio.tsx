@@ -17,11 +17,11 @@ export interface RadioProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLIn
 
 export const Radio: React.FunctionComponent<RadioProps> = props => {
     return (
-        <div className={styles.container}>
-            <label htmlFor={props.id ?? undefined} style={{ height: '100%', width: '100%' }}>
-                <input type={'radio'} {...props} />
+       
+            <label className={styles.container} htmlFor={props.id ?? undefined} >
+                <input className={styles.input} type={'radio'} {...props} />
                 {props.label}
             </label>
-        </div>
+   
     )
 }

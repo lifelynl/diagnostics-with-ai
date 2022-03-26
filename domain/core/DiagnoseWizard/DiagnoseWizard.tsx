@@ -10,6 +10,7 @@ import { Result } from './templates/Result'
 import { Button } from '../Button/Button'
 import symptoms from './symptoms.json'
 import Image from 'next/image'
+import { Loading } from '../Loading/Loading'
 
 export enum QuestionType {
     Init = 'Init',
@@ -67,6 +68,7 @@ async function askKindlyToAI(value: string): Promise<{ type: QuestionType; data:
 }
 
 export const DiagnoseWizard = observer(() => {
+    const [loading, setLoading] = useState(false)
     const dynamicWizard = useLocalObservable(
         () => new DynamicWizard([{ data: {}, type: QuestionType.Init, id: uniqueId() }])
     )
@@ -74,15 +76,22 @@ export const DiagnoseWizard = observer(() => {
     return (
         <form onSubmit={handleOnSubmit} style={{height: '100vh', display: 'flex', flexDirection:'column', justifyContent: 'space-between'}}>
             <div style={{ display: 'flex', flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-            <Image width={132} height={156} src={'/Danny.png'} alt={'Danny'} />
-            {renderStep()}
+            <div>
+                <Image width={132} height={156} src={'/Danny.png'} alt={'Danny'} />
             </div>
-            <Button style={{marginBottom: 16, transform: 'translateY(-24px)'}} type="submit">Continue</Button>
+            {loading ? <Loading /> : renderStep()}
+            {/* <MainSymptom options={symptoms} /> */}
+            {/* <HowManyDays />
+            <ExtraSymptoms option={'testing '} />
+            <SymptomCorrection options={['test_test', 'test_test1']} />
+            <Result result={'result'} />  */}
+            </div>
+            {!loading && <Button style={{marginBottom: 16, transform: 'translateY(-24px)'}} type="submit">Continue</Button>}
         </form>
     )
 
     async function handleOnSubmit(e?: any) {
-        console.log(e.target.elements.value.value)
+        setLoading(true) 
         e.preventDefault()
         const result = await askKindlyToAI(e.target.elements.value.value)
         dynamicWizard.addStep({
@@ -91,6 +100,7 @@ export const DiagnoseWizard = observer(() => {
             data: result.data,
         })
         dynamicWizard.nextStep()
+        setLoading(false)
     }
 
     function renderStep() {
