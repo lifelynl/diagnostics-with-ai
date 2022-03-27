@@ -9,7 +9,7 @@ interface ExtraSymptomsProps {
 export const ExtraSymptoms: React.FunctionComponent<ExtraSymptomsProps> = ({ option }) => {
     return (
         <div className={styles.container}>
-            <Title>{option}</Title>
+            <Title>Are you experiencing the following symptom: {option.replace(/_/g, ' ')}</Title>
             <Radio id="yes" name="value" value="yes" label="Yes" />
             <Radio id="no" name="value" value="no" label="No" />
         </div>
